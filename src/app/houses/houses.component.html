@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Address</th>
+                        <th>Rent Price</th>
+                        <th>Status</th>
+                        <th>Owner</th>
+
+                    </tr>
+                </thead>
+                <tbody *ngFor="let house of houses">
+                    <tr>
+                        <td>{{house.idHouse}}</td>
+                        <td>{{house.address}}</td>
+                        <td>{{house.rentPrice | currency}}</td>
+                        <td>{{house.status}}</td>
+                        <td>{{house.owner.name}}</td>
+                        <td><a *ngIf="authService.isAdmin()" class="btn btn-danger" (click)="delete_House(house)">Delete</a></td>
+                        <td><a *ngIf="authService.isAdmin()" class="btn btn-success" [routerLink]="['/updateHouse',house.idHouse]">Modify</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property Rental System</title>
+</head>
+
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <!-- Brand Name -->
+    <a class="navbar-brand" href="#">Property Rental</a>
+
+    <!-- Navigation Links -->
+    <ul class="navbar-nav">
+      <!-- Home Link -->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/houses">Home</a>
+      </li>
+
+      <!-- Houses Dropdown Menu -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="housesDropdown" data-toggle="dropdown">
+          Houses
+        </a>
+        <div class="dropdown-menu">
+          <a *ngIf="authService.isAdmin()" class="dropdown-item" routerLink="/add-house">Add New House</a>
+          <a class="dropdown-item" href="#">List Houses</a>
+          <a class="dropdown-item" routerLink="/searchByOwner">Search by Owner</a>
+          <a class="dropdown-item" routerLink="/searchByAddress">Search by Address</a>
+          <a class="dropdown-item" routerLink="/ownersList">Manage Owners</a>
+        </div>
+      </li>
+    </ul>
+
+    <!-- Right-aligned User Menu -->
+    <ul class="navbar-nav ml-auto">
+      <li>
+        <a class="nav-link">{{authService.loggedUser}}</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" data-toggle="dropdown">
+          Connexion
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+          <a *ngIf="!authService.isloggedIn" class="dropdown-item" routerLink="login">Login</a>
+          <a *ngIf="authService.isloggedIn" class="dropdown-item" (click)="onLogout()">Logout</a>
+          <a class="dropdown-item" href="#">Profile</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+
+  <router-outlet></router-outlet>
+</body>
+
+</html>

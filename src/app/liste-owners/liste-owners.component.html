@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="col-sm-4 col-md-4 col-lg-4 mb-4">
+        <app-update-owners [owner]="updatedOw" [added]="added" (updatedOw)="onOwnerUpdate($event)"></app-update-owners>
+    </div>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+
+                    </tr>
+                </thead>
+                <tbody *ngFor="let ows of owners">
+                    <tr>
+                        <td>{{ows.idOwner}}</td>
+                        <td>{{ows.name}}</td>
+                        <td>{{ows.email}}</td>
+                        <td>{{ows.phone}}</td>
+                        <td><a class="btn btn-success" (click)="update_Owner(ows)">Modify</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
