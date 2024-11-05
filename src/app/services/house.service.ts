@@ -5,6 +5,7 @@ import { apiURL, apiURLOwn } from '../config';
 import { House } from '../model/house.model';
 import { Owner } from '../model/owner.model';
 import { OwnerWrapper } from '../model/ownerWrapped.model';
+import { AuthService } from './auth.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -24,7 +25,7 @@ export class HouseService {
 
   house?: House;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private authService: AuthService) {
 
     /*     this.owners = [
           {idOwner: 1, name: 'Sonia', phone: '215898775',email:"sonia@gmail.com"},
@@ -40,13 +41,24 @@ export class HouseService {
         ]; */
   }
 
-  listHouse(): Observable<House[]> {
-    return this.http.get<House[]>(apiURL);
+  listHouse(): Observable<House[]> {/*
+    let jwt = this.authService.getToken();
+    jwt = "Bearer " + jwt;
+    let httpHeaders = new HttpHeaders({ "Authorization": jwt })
+*/
+    return this.http.get<House[]>(apiURL + "/all"/*, { headers: httpHeaders }*/);
   }
 
   addHouse(house: House): Observable<House> {
     //this.houses.push(house);
-    return this.http.post<House>(apiURL, house, httpOptions);
+    //return this.http.post<House>(apiURL, house, httpOptions);
+
+    /*
+    let jwt = this.authService.getToken();
+    jwt = "Bearer " + jwt;
+    let httpHeaders = new HttpHeaders({ "Authorization": jwt })
+    */
+    return this.http.post<House>(apiURL + "/addhouse", house/*, { headers: httpHeaders }*/);
   }
 
   addOwner(own: Owner): Observable<Owner> {
@@ -54,8 +66,14 @@ export class HouseService {
   }
 
   deleteHouse(id: number) {
-    const url = `${apiURL}/${id}`
-    return this.http.delete(url, httpOptions);
+    const url = `${apiURL}/delhouse/${id}`;
+    /*
+    let jwt = this.authService.getToken();
+    jwt = "Bearer " + jwt;
+    let httpHeaders = new HttpHeaders({ "Authorization": jwt })
+    */
+    return this.http.delete(url/*, { headers: httpHeaders }*/);
+    //return this.http.delete(url, httpOptions);
   }
 
 
@@ -87,16 +105,28 @@ export class HouseService {
   }
 
   updateHouse(h: House): Observable<House> {
-    return this.http.put<House>(apiURL, h, httpOptions);
+    //return this.http.put<House>(apiURL, h, httpOptions);
     // console.log(h);
     //this.deleteHouse(h);
     //this.addHouse(h);
     //this.trierHouses();
+    /*
+    let jwt = this.authService.getToken();
+    jwt = "Bearer " + jwt;
+    let httpHeaders = new HttpHeaders({ "Authorization": jwt })
+    */
+    return this.http.put<House>(apiURL + "/updatehouse", h/*, { headers: httpHeaders }*/);
+
   }
 
   consulteHouse(id: number): Observable<House> {
-    const url = `${apiURL}/${id}`;
-    return this.http.get<House>(url);
+    const url = `${apiURL}/getbyid/${id}`;
+    /*
+    let jwt = this.authService.getToken();
+    jwt = "Bearer " + jwt;
+    let httpHeaders = new HttpHeaders({ "Authorization": jwt })
+    */
+    return this.http.get<House>(url/*, { headers: httpHeaders }*/);
   }
 
 
@@ -106,7 +136,14 @@ export class HouseService {
     } */
 
   listeOwners(): Observable<OwnerWrapper> {
-    return this.http.get<OwnerWrapper>(apiURLOwn);
+    //return this.http.get<OwnerWrapper>(apiURLOwn);
+    /*
+    let jwt = this.authService.getToken();
+    jwt = "Bearer " + jwt;
+    let httpHeaders = new HttpHeaders({ "Authorization": jwt })
+    */
+    return this.http.get<OwnerWrapper>(apiURLOwn/*, { headers: httpHeaders }*/);
+
   }
 
   /*  listeOwners(): Observable <Owner[]> {

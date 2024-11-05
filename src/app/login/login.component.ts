@@ -1,7 +1,7 @@
-import { Router } from '@angular/router';
-import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from '../model/user.model';
+import { AuthService } from './../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,21 +9,30 @@ import { User } from '../model/user.model';
   styles: ``
 })
 export class LoginComponent implements OnInit {
-  erreur=0;
+
   user = new User();
+  err: number = 0;
   constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
-
+    if (this.authService.isloggedIn) {
+      //redirect to home if already logged in
+      this.router.navigate(['/']); 
+    }
   }
 
   onLoggedin() {
-    console.log(this.user);
-    let isValidUser: Boolean = this.authService.SignIn(this.user);
-    if (isValidUser)
-      this.router.navigate(['/']);
-    else
-      //alert('Login ou mot de passe incorrecte!');
-    this.erreur = 1;
+    this.authService.login(this.user).subscribe({
+      next: (data) => {
+        let jwToken = data.headers.get('Authorization')!;
+        this.authService.saveToken(jwToken);
+        this.router.navigate(['/']);
+        console.log(this.authService.isloggedIn);
+      },
+      error: (err: any) => {
+        this.err = 1;
+      }
+    });
+
   }
 }

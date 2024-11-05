@@ -3,10 +3,11 @@
   <div class="form-group mx-sm-3 mb-2 mt-2">
     <label for="addressH">Address</label>
     <div class="input-group">
-      <input type="text" class="form-control" id="addressH" [(ngModel)]="addressH" name="addressH"
-        placeholder="Enter address...">
+      <!-- <input type="text" class="form-control" id="addressH" [(ngModel)]="addressH" name="addressH" -->
+      <input class="form-control" #searchTerm (keyup)="onKeyUp(searchTerm.value)"placeholder="Enter address...">
       <div class="input-group-append">
-        <button type="submit" (click)="SearchHouses()" class="btn btn-primary">Search</button>
+        <button type="submit" (click)="SearchHouses()" class="btn btn-primary">Search</button> 
+         
       </div>
     </div>
   </div>
