@@ -10,6 +10,7 @@ import { ListeOwnersComponent } from './liste-owners/liste-owners.component';
 import { LoginComponent } from './login/login.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { AuthGuard } from './auth.guard';
+import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   { path: "houses", component: HousesComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: "searchByAddress", component: SearchByAddressComponent },
   { path: "ownersList", component: ListeOwnersComponent , canActivate: [HouseGuard]},
   { path: "login", component: LoginComponent ,canActivate: [AuthGuard]},
+  { path: "register", component: RegisterComponent},
   { path: "app-forbidden", component: ForbiddenComponent },
   { path: "", redirectTo: "houses", pathMatch: "full" }
 ];

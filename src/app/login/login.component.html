@@ -1,22 +1,25 @@
 <div class="container mt-5">
     <div class="row justify-content-md-center">
         <div class="col-md-4">
-            <div class="alert alert-danger" *ngIf="err==1">
-                <strong>login or Password incorrect...</strong>
+            <div class="alert alert-danger" *ngIf="err">
+                <strong>Login or Password incorrect...</strong>
             </div>
 
-            <form>
+            <form (ngSubmit)="onLoggedin()">
                 <div class="form-group">
-                    <label>User Name:</label>
-                    <input type="text" name="username" class="form-control" [(ngModel)]="user.username">
+                    <label for="username">User Name:</label>
+                    <input type="text" id="username" name="username" class="form-control" [(ngModel)]="user.username" required>
                 </div>
                 <div class="form-group">
-                    <label>Password :</label>
-                    <input type="password" name="password" [(ngModel)]="user.password" class="form-control">
+                    <label for="password">Password :</label>
+                    <input type="password" id="password" name="password" [(ngModel)]="user.password" class="form-control" required>
                 </div>
                 <div class="row justify-content-md-center">
-                    <button type="button" (click)="onLoggedin()" class="btn btn-success">Log In</button>
+                    <button type="submit" class="btn btn-success">Log In</button>
                 </div>
+                <p class="mt-2">Don't have an account? 
+                    <a routerLink="/register">Register </a>
+                </p>
             </form>
         </div>
     </div>

@@ -22,7 +22,6 @@ export class AuthService {
 
   private helper = new JwtHelperService();
 
-
   constructor(private router: Router, private http: HttpClient) { }
 
   login(user: User) {
@@ -30,26 +29,32 @@ export class AuthService {
   }
 
   saveToken(jwt: string) {
-    localStorage.setItem('jwt', jwt);
+    if (typeof window !== 'undefined' && window.localStorage) { // Check if window and localStorage are available
+      localStorage.setItem('jwt', jwt);
+    }
     this.token = jwt;
     this.isloggedIn = true;
     this.decodeJWT();
   }
 
   decodeJWT() {
-    if (this.token == undefined)
-      return;
+    if (this.token == undefined) return;
     const decodedToken = this.helper.decodeToken(this.token);
-    this.roles = decodedToken.roles;
-    this.loggedUser = decodedToken.sub;
+    if (decodedToken && decodedToken.roles) {
+      this.roles = decodedToken.roles;
+      this.loggedUser = decodedToken.sub;
+    }
   }
+  
 
   isTokenExpired(): Boolean {
     return this.helper.isTokenExpired(this.token);
   }
 
   loadToken() {
-    this.token = localStorage.getItem('jwt') || "";
+    if (typeof window !== 'undefined' && window.localStorage) { // Check if window and localStorage are available
+      this.token = localStorage.getItem('jwt') || "";
+    }
     this.decodeJWT();
   }
 
@@ -100,7 +105,9 @@ export class AuthService {
      }
      });}*/
 
-
+     registerUser(user :User){
+      return this.http.post<User>(apiURLUser + '/register', user, { observe: 'response' });
+      }
 
 
 }
