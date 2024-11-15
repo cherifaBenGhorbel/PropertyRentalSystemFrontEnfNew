@@ -16,6 +16,7 @@ import { TokenInterceptor } from './services/token.interceptor';
 import { UpdateHouseComponent } from './update-house/update-house.component';
 import { UpdateOwnersComponent } from './update-owners/update-owners.component';
 import { RegisterComponent } from './register/register.component';
+import { VerifEmailComponent } from './verif-email/verif-email.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { RegisterComponent } from './register/register.component';
     LoginComponent,
     ForbiddenComponent,
     RegisterComponent,
+    VerifEmailComponent,
   ],
   imports: [
     BrowserModule,

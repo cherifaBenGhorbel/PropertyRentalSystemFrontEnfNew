@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
 export class TokenInterceptor implements HttpInterceptor {
 
   constructor(private authService: AuthService) { }
-  exclude_array: string[] = ['/login', '/register', '/verifyEmail'];
+  exclude_array: string[] = ['/login', '/register', '/verifEmail'];
 
   toExclude(url: string) {
     var length = this.exclude_array.length;

@@ -9,6 +9,10 @@ import { User } from '../model/user.model';
   providedIn: 'root'
 })
 export class AuthService {
+  
+  validateEmail(code: string) {
+    return this.http.get<User>(apiURLUser + '/verifyEmail/' + code, { observe: 'response' });
+  }
 
   /*users: User[] = [
     { "username": "admin", "password": "123", "roles": ['ADMIN'] },
@@ -22,7 +26,13 @@ export class AuthService {
 
   private helper = new JwtHelperService();
 
+  public registredUser: User = new User();
+
   constructor(private router: Router, private http: HttpClient) { }
+
+  setRegistredUser(user: User) { this.registredUser = user; }
+  getRegistredUser() { return this.registredUser; }
+
 
   login(user: User) {
     return this.http.post<User>(apiURLUser + '/login', user, { observe: 'response' });
@@ -45,7 +55,7 @@ export class AuthService {
       this.loggedUser = decodedToken.sub;
     }
   }
-  
+
 
   isTokenExpired(): Boolean {
     return this.helper.isTokenExpired(this.token);
@@ -105,9 +115,9 @@ export class AuthService {
      }
      });}*/
 
-     registerUser(user :User){
-      return this.http.post<User>(apiURLUser + '/register', user, { observe: 'response' });
-      }
+  registerUser(user: User) {
+    return this.http.post<User>(apiURLUser + '/register', user, { observe: 'response' });
+  }
 
 
 }
