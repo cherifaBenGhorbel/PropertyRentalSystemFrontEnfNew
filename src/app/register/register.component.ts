@@ -15,10 +15,9 @@ export class RegisterComponent implements OnInit {
   myForm!: FormGroup;
   loading : boolean = false;
   err!: any;
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router , private toastr: ToastrService,  private cdRef: ChangeDetectorRef) { }
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router , private toastr: ToastrService) { }
 
   ngOnInit(): void {
-     this.toastr.success('Test message', 'Test Title');
     this.myForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
       email: ['', [Validators.required, Validators.email]],
@@ -39,11 +38,10 @@ export class RegisterComponent implements OnInit {
     if (this.myForm.valid) {
       this.authService.registerUser(this.user).subscribe({
         next: (res) => {
+          this.loading=false;
           this.authService.setRegistredUser(this.user);
           this.toastr.success('Please confirm your email','Confirmation Email Sent');
-          this.loading=false;
           this.router.navigate(['/verifEmail']);
-          this.cdRef.detectChanges();
         },
         error: (err: any) => {
           if(err.error.errorCode=="USER_EMAIL_ALREADY_EXISTS"){
