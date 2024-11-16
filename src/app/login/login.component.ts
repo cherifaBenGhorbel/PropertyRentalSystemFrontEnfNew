@@ -12,6 +12,8 @@ export class LoginComponent implements OnInit {
 
   user = new User();
   err: number = 0;
+  mess:string="Login or Password incorrect...";
+
   constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -31,6 +33,12 @@ export class LoginComponent implements OnInit {
       },
       error: (err: any) => {
         this.err = 1;
+        if (err.error.errorCause == "disabled") {
+          this.mess = "Your account is disabled !!!";
+        }
+        
+        
+
       }
     });
 

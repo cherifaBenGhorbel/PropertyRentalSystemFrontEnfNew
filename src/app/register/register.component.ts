@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { User } from './../model/user.model';
 import { AuthService } from './../services/auth.service';
 
@@ -14,9 +15,10 @@ export class RegisterComponent implements OnInit {
   myForm!: FormGroup;
   loading : boolean = false;
   err!: any;
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router , private toastr: ToastrService,  private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+     this.toastr.success('Test message', 'Test Title');
     this.myForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
       email: ['', [Validators.required, Validators.email]],
@@ -38,9 +40,10 @@ export class RegisterComponent implements OnInit {
       this.authService.registerUser(this.user).subscribe({
         next: (res) => {
           this.authService.setRegistredUser(this.user);
-          alert("Please confirm your email");
+          this.toastr.success('Please confirm your email','Confirmation Email Sent');
           this.loading=false;
           this.router.navigate(['/verifEmail']);
+          this.cdRef.detectChanges();
         },
         error: (err: any) => {
           if(err.error.errorCode=="USER_EMAIL_ALREADY_EXISTS"){

@@ -1,8 +1,8 @@
 <div class="container mt-5">
     <div class="row justify-content-md-center">
         <div class="col-md-4">
-            <div class="alert alert-danger" *ngIf="err">
-                <strong>Login or Password incorrect...</strong>
+            <div class="alert alert-danger" *ngIf="err==1">
+                <strong>{{mess}}</strong>
             </div>
 
             <form (ngSubmit)="onLoggedin()">
