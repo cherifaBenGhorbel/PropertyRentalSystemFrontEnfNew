@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { apiURL, apiURLOwn } from '../config';
+import { apiURL, apiURLImage, apiURLOwn } from '../config';
 import { House } from '../model/house.model';
+import { Image } from '../model/image.model';
 import { Owner } from '../model/owner.model';
 import { OwnerWrapper } from '../model/ownerWrapped.model';
 import { AuthService } from './auth.service';
@@ -159,4 +160,27 @@ export class HouseService {
     return this.http.get<House[]>(url);
   }
 
+  uploadImage(file: File, filename: string): Observable<Image> {
+    const imageFormData = new FormData();
+    imageFormData.append('image', file, filename);
+    const url = `${apiURLImage + '/upload'}`;
+    return this.http.post<Image>(url, imageFormData);
+  }
+  
+  loadImage(id: number): Observable<Image> {
+    const url = `${apiURLImage + '/get/info'}/${id}`;
+    return this.http.get<Image>(url);
+  }
+  uploadImageHouse(file: File, filename: string, idHous:number): Observable<any>{
+    const imageFormData = new FormData();
+    imageFormData.append('image', file, filename);
+    const url = `${apiURLImage + '/uplaodImageHous'}/${idHous}`;
+    return this.http.post(url, imageFormData);
+    }
+
+    supprimerImage(id : number) {
+      const url = `${apiURLImage}/delete/${id}`;
+      return this.http.delete(url, httpOptions);
+      }
+    
 }

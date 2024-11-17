@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { House } from '../model/house.model';
 import { HouseService } from '../services/house.service';
 import { AuthService } from './../services/auth.service';
+import { Image } from '../model/image.model';
 
 @Component({
   selector: 'app-houses',
@@ -10,7 +11,7 @@ import { AuthService } from './../services/auth.service';
 export class HousesComponent implements OnInit {
   houses?: House[];
 
-  constructor(private houseService: HouseService , public authService:AuthService) {
+  constructor(private houseService: HouseService, public authService: AuthService) {
 
   }
 
@@ -25,7 +26,11 @@ export class HousesComponent implements OnInit {
     this.houseService.listHouse().subscribe(hous => {
       //console.log(hous);
       this.houses = hous;
-    })
+
+      this.houses.forEach((house) => {
+        house.imageStr = 'data:' + house.images[0].type + ';base64,' + house.images[0].image;
+      });
+    });
   }
   delete_House(house: House) {
     let conf = confirm("Are You sur ?");

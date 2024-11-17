@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { House } from '../model/house.model';
-import { HouseService } from '../services/house.service';
-import { Owner } from '../model/owner.model';
 import { Router } from '@angular/router';
+import { House } from '../model/house.model';
+import { Image } from '../model/image.model';
+import { Owner } from '../model/owner.model';
+import { HouseService } from '../services/house.service';
 
 @Component({
   selector: 'app-add-house',
@@ -17,6 +18,9 @@ export class AddHouseComponent implements OnInit {
   newIdOwner!: number;
   newOwner!: Owner;
 
+  uploadedImage!: File;
+  imagePath: any;
+
   constructor(private houseService: HouseService, private router: Router) {
 
   }
@@ -30,7 +34,7 @@ export class AddHouseComponent implements OnInit {
     //this.owners = this.houseService.listeOwners();
   }
 
-  add_House() {
+  /*add_House() {
     this.newHouse.owner = this.owners.find(own => own.idOwner == this.newIdOwner)!;
     this.houseService.addHouse(this.newHouse)
       .subscribe(hows => {
@@ -38,15 +42,37 @@ export class AddHouseComponent implements OnInit {
         console.log(hows);
       });
     this.router.navigate(['houses']);
+*/
 
-
-
+  add_House() {
+    this.houseService
+      .uploadImage(this.uploadedImage, this.uploadedImage.name)
+      .subscribe((img: Image) => {
+        this.newHouse.image = img;
+        this.newHouse.owner = this.owners.find(own => own.idOwner
+          == this.newIdOwner)!;
+        this.houseService
+          .addHouse(this.newHouse)
+          .subscribe(() => {
+            this.router.navigate(['houses']);
+          });
+      });
     /*   console.log(this.newIdOwner);
         //this.newOwner = this.houseService.consulteOwner(this.newIdOwner);
         this.newHouse.owner = this.newOwner;
         this.houseService.addHouse(this.newHouse);
         this.message = "House  " + this.newHouse.idHouse + "added succefully";
         this.router.navigate(["houses"]); */
+  }
+  onImageUpload(event: any) {
+    this.uploadedImage = event.target.files[0];
+
+    var reader = new FileReader();
+    reader.readAsDataURL(this.uploadedImage);
+    reader.onload = (_event) => {
+      this.imagePath = reader.result;
+    }
 
   }
+
 }

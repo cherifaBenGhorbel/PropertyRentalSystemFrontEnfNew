@@ -9,6 +9,7 @@
                         <th>Rent Price</th>
                         <th>Status</th>
                         <th>Owner</th>
+                        <th>Image</th>
 
                     </tr>
                 </thead>
@@ -19,8 +20,14 @@
                         <td>{{house.rentPrice | currency}}</td>
                         <td>{{house.status}}</td>
                         <td>{{house.owner.name}}</td>
-                        <td><a *ngIf="authService.isAdmin()" class="btn btn-danger" (click)="delete_House(house)">Delete</a></td>
-                        <td><a *ngIf="authService.isAdmin()" class="btn btn-success" [routerLink]="['/updateHouse',house.idHouse]">Modify</a></td>
+                        <td>
+                            <img class="card-img-top img-responsive" src="{{house.imageStr}}"
+                                style="height :50px;width:100px">
+                        </td>
+                        <td><a *ngIf="authService.isAdmin()" class="btn btn-danger"
+                                (click)="delete_House(house)">Delete</a></td>
+                        <td><a *ngIf="authService.isAdmin()" class="btn btn-success"
+                                [routerLink]="['/updateHouse',house.idHouse]">Modify</a></td>
                     </tr>
                 </tbody>
             </table>
