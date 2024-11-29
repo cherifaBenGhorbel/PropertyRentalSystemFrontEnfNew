@@ -30,8 +30,12 @@
     <!-- Status Field -->
     <div class="form-group col-sm-4">
       <label for="status">Status</label>
-      <input type="text" [(ngModel)]="currentHouse.status" name="status" id="status" class="form-control"
-        placeholder="Enter house status (e.g., Available, Rented)" required>
+<!--       <input type="text" [(ngModel)]="currentHouse.status" name="status" id="status" class="form-control"
+        placeholder="Enter house status (e.g., Available, Rented)" required> -->
+        <select [(ngModel)]="currentHouse.status" name="status" class="form-control "required>
+          <option value="Available">Available</option>
+          <option value="Rented">Rented</option>
+      </select>
     </div>
 
     <!-- Owner Selection Dropdown -->
