@@ -1,42 +1,60 @@
-import { NgModule } from '@angular/core';
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-
+import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HousesComponent } from './houses/houses.component';
-import { AddHouseComponent } from './add-house/add-house.component';
-import { FormsModule } from '@angular/forms';
-import { UpdateHouseComponent } from './update-house/update-house.component';
-import { HttpClientModule } from '@angular/common/http';
-import { SearchByOwnerComponent } from './search-by-owner/search-by-owner.component';
-import { SearchByAddressComponent } from './search-by-address/search-by-address.component';
-import { ListeOwnersComponent } from './liste-owners/liste-owners.component';
-import { UpdateOwnersComponent } from './update-owners/update-owners.component';
-import { LoginComponent } from './login/login.component';
-import { ForbiddenComponent } from './forbidden/forbidden.component';
+
+
+function initializeKeycloak(keycloak: KeycloakService) {
+  return () => {
+    if (typeof window !== 'undefined') {
+      return keycloak.init({
+        config: {
+          url: 'http://localhost:8090',
+          realm: 'cherifa-realm',
+          clientId: 'prop-app',
+        },
+        initOptions: {
+          /*           onLoad: 'login-required',
+                    checkLoginIframe: true, */
+          onLoad: 'check-sso',
+          silentCheckSsoRedirectUri:
+            window.location.origin + '/assets/silent-check-sso.html'
+        },
+      });
+    } else {
+      console.warn('Keycloak initialization skipped: running in a server environment.');
+      return Promise.resolve();
+    }
+  };
+}
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HousesComponent,
-    AddHouseComponent,
-    UpdateHouseComponent,
-    SearchByOwnerComponent,
-    SearchByAddressComponent,
-    ListeOwnersComponent,
-    UpdateOwnersComponent,
-    LoginComponent,
-    ForbiddenComponent
+    HousesComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    KeycloakAngularModule
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    provideHttpClient(withFetch()),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService]
+    }
   ],
   bootstrap: [AppComponent]
 })

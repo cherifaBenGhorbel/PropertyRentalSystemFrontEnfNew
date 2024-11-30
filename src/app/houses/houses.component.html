@@ -19,8 +19,8 @@
                         <td>{{house.rentPrice | currency}}</td>
                         <td>{{house.status}}</td>
                         <td>{{house.owner.name}}</td>
-                        <td><a *ngIf="authService.isAdmin()" class="btn btn-danger" (click)="delete_House(house)">Delete</a></td>
-                        <td><a *ngIf="authService.isAdmin()" class="btn btn-success" [routerLink]="['/updateHouse',house.idHouse]">Modify</a></td>
+                        <td><a  class="btn btn-danger" link="">Delete</a></td>
+                        <td><a  class="btn btn-success" link="">Modify</a></td>
                     </tr>
                 </tbody>
             </table>

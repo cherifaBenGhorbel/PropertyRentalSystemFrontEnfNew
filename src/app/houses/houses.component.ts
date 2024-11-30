@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { House } from '../model/house.model';
 import { HouseService } from '../services/house.service';
-import { AuthService } from './../services/auth.service';
 
 @Component({
   selector: 'app-houses',
@@ -10,7 +9,7 @@ import { AuthService } from './../services/auth.service';
 export class HousesComponent implements OnInit {
   houses?: House[];
 
-  constructor(private houseService: HouseService , public authService:AuthService) {
+  constructor(private houseService: HouseService ) {
 
   }
 
@@ -29,14 +28,7 @@ export class HousesComponent implements OnInit {
   }
   delete_House(house: House) {
     let conf = confirm("Are You sur ?");
-    if (conf) {
-      this.houseService.deleteHouse(house.idHouse).subscribe(() => {
-        console.log("House was deleted");
-        this.chargedHouses();
 
-      }
-      )
-    }
   }
 
   /* 
